@@ -25,20 +25,49 @@ app.post('//users/register', async (req, res) => {
         publicaciones: []
     }
     users.push(user)
-    res.redirect('//users/login/:'+user._id)
+    res.redirect('//users/login/:id')
 });
-
+/*
 app.get('//users/login/:id', async (req, res) => {
     const id = Number(req.params.id)
     const userId = users.find(user => user._id===id)
-});
+    if (exist){
+        res.json("userId")
+    }else{
+        res.status(404).end()
+    }
+});*/
 
-app.get('//users/login', async (req, res) => {
-    console.log("aahhhahahah")
+app.get('//users/login/:id', async (req, res) => {
+    const id = Number(req.params.id)
+    const exist = users.find(u => u._id===id)
+    if (exist){
+        res.json("userId")
+    }else{
+        res.status(404).end()
+    }
 });
+/*
+app.get('//users/login', async (req, res) => {
+    const name=req.body.username
+    const pass=req.body.password
+    const exist=users.find(u => u.username===name && u.password===pass)
+    if (exist){
+        res.json("userId")
+    }else{
+        res.status(404).end()
+    }
+});*/
 
 app.post('//users/login', async (req, res) => {
-    console.log("aahhhahahah")
+    const name=req.body.username
+    const pass=req.body.password
+    const exist=users.find(u => u.username===name && u.password===pass)
+    if (exist){
+        res.json("userId")
+    }else{
+        res.status(404).end()
+    }
 });
 
 app.use(async (req,res) => {
