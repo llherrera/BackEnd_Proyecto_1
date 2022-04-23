@@ -14,21 +14,35 @@ app.use(( req, res, next ) => {
 app.use(express.json())
 
 let users = []
-
-/*app.get('/users/register', async (req, res) => {
-    console.log(req.query)
-});*/
+let genIdUser=0
 
 app.post('//users/register', async (req, res) => {
-    console.log('axhhhh')
+    const user = {
+        _id : genIdUser++,
+        display_name: req.body.display_name,
+        username: req.body.username,
+        password: req.body.password,
+        publicaciones: []
+    }
+    users.push(user)
+    res.redirect('//users/login/:'+user._id)
+});
+
+app.get('//users/login/:id', async (req, res) => {
+    const id = Number(req.params.id)
+    const userId = users.find(user => user._id===id)
 });
 
 app.get('//users/login', async (req, res) => {
-    console.log('ahhhh')
+    console.log("aahhhahahah")
+});
+
+app.post('//users/login', async (req, res) => {
+    console.log("aahhhahahah")
 });
 
 app.use(async (req,res) => {
     res.status(404).json({message: "Not found."})
-    });
+});
 
 app.listen(8080)
