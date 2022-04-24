@@ -1,5 +1,16 @@
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
+
+mongoose.connect(
+    "mongodb+srv://llherrera:BackEndp@cluster0.jf51l.mongodb.net/BackEnd_DB_P1?retryWrites=true&w=majority"
+    )
+.then(() => {
+    console.log("Exito");
+})
+.catch((e) => {
+    console.log("Jumbo")
+})
 
 app.use(( req, res, next ) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -25,7 +36,7 @@ app.post('//users/register', async (req, res) => {
         publicaciones: []
     }
     users.push(user)
-    res.redirect('//users/login/:id')
+    //res.redirect('//users/login/:id')
 });
 /*
 app.get('//users/login/:id', async (req, res) => {
@@ -37,8 +48,8 @@ app.get('//users/login/:id', async (req, res) => {
         res.status(404).end()
     }
 });*/
-
-app.get('//users/login/:id', async (req, res) => {
+/*
+app.post('//users/login/:id', async (req, res) => {
     const id = Number(req.params.id)
     const exist = users.find(u => u._id===id)
     if (exist){
@@ -46,7 +57,7 @@ app.get('//users/login/:id', async (req, res) => {
     }else{
         res.status(404).end()
     }
-});
+});*/
 /*
 app.get('//users/login', async (req, res) => {
     const name=req.body.username
@@ -66,8 +77,12 @@ app.post('//users/login', async (req, res) => {
     if (exist){
         res.json("userId")
     }else{
-        res.status(404).end()
+        res.status("User not found").end()
     }
+});
+
+app.get('//posts/recent', async (req, res) => {
+    console.log("aaaa")
 });
 
 app.use(async (req,res) => {
