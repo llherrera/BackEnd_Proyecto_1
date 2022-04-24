@@ -1,6 +1,24 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const {Schema} = mongoose;
+
+const userSchema = new Schema({
+    name: String,
+    username: String,
+    password: String,
+    posts: [{
+        name: String,
+        desc: String,
+        imaURL: String,
+        price: Number
+    }],
+    cart: [{
+        idPost: Number
+    }]
+});
+
+const userModel = mongoose.model('Users', userSchema);
 
 mongoose.connect(
     "mongodb+srv://llherrera:BackEndp@cluster0.jf51l.mongodb.net/BackEnd_DB_P1?retryWrites=true&w=majority"
@@ -24,18 +42,19 @@ app.use(( req, res, next ) => {
 
 app.use(express.json())
 
-let users = []
-let genIdUser=0
-
 app.post('//users/register', async (req, res) => {
-    const user = {
-        _id : genIdUser++,
-        display_name: req.body.display_name,
-        username: req.body.username,
-        password: req.body.password,
-        publicaciones: []
+    try{
+        const user = new userModel({
+            name: req.body.display_name,
+            username: req.body.username,
+            password: req.body.password,
+            posts: [],
+            cart: []
+        });
+        await user.save();
+    } catch (e){
+        console.log(e)
     }
-    users.push(user)
     //res.redirect('//users/login/:id')
 });
 /*
@@ -73,12 +92,21 @@ app.get('//users/login', async (req, res) => {
 app.post('//users/login', async (req, res) => {
     const name=req.body.username
     const pass=req.body.password
-    const exist=users.find(u => u.username===name && u.password===pass)
-    if (exist){
-        res.json("userId")
-    }else{
-        res.status("User not found").end()
+    //const exist=users.find(u => u.username===name && u.password===pass)
+    const doc = await userModel.findOne({username:req.body.username, password:req.body.password})
+    console.log(doc)
+    try{
+        if (doc){
+            res.json("userId")
+        }else{
+            res.status("User not found").end()
+        }
+    } catch (e){
+        res.status("User not found")
+        //res.redirect('login')
     }
+
+    
 });
 
 app.get('//posts/recent', async (req, res) => {
