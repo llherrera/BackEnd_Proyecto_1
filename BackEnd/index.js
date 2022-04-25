@@ -18,7 +18,17 @@ const userSchema = new Schema({
     }]
 });
 
+const postSchema = new Schema({
+    idUser: String,
+    name: String,
+    desc: String,
+    imaURL: String,
+    price: Number,
+    date: {type:Date, default:Date.now}
+});
+
 const userModel = mongoose.model('Users', userSchema);
+const postModel = mongoose.model('Posts', postSchema);
 
 mongoose.connect(
     "mongodb+srv://llherrera:BackEndp@cluster0.jf51l.mongodb.net/BackEnd_DB_P1?retryWrites=true&w=majority"
@@ -94,7 +104,7 @@ app.post('//users/login', async (req, res) => {
     const pass=req.body.password
     //const exist=users.find(u => u.username===name && u.password===pass)
     const doc = await userModel.findOne({username:req.body.username, password:req.body.password})
-    console.log(doc)
+    
     try{
         if (doc){
             res.json("userId")
@@ -110,7 +120,8 @@ app.post('//users/login', async (req, res) => {
 });
 
 app.get('//posts/recent', async (req, res) => {
-    console.log("aaaa")
+    const posts = await postModel.find({date:Date}).sort({date:-1}).limit(10);
+    console.log(postsU)
 });
 
 app.use(async (req,res) => {
