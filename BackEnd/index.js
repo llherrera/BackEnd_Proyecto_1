@@ -58,46 +58,13 @@ app.post('//users/register', async (req, res) => {
             name: req.body.display_name,
             username: req.body.username,
             password: req.body.password,
-            posts: [],
             cart: []
         });
         await user.save();
     } catch (e){
         console.log(e)
     }
-    //res.redirect('//users/login/:id')
 });
-/*
-app.get('//users/login/:id', async (req, res) => {
-    const id = Number(req.params.id)
-    const userId = users.find(user => user._id===id)
-    if (exist){
-        res.json("userId")
-    }else{
-        res.status(404).end()
-    }
-});*/
-/*
-app.post('//users/login/:id', async (req, res) => {
-    const id = Number(req.params.id)
-    const exist = users.find(u => u._id===id)
-    if (exist){
-        res.json("userId")
-    }else{
-        res.status(404).end()
-    }
-});*/
-/*
-app.get('//users/login', async (req, res) => {
-    const name=req.body.username
-    const pass=req.body.password
-    const exist=users.find(u => u.username===name && u.password===pass)
-    if (exist){
-        res.json("userId")
-    }else{
-        res.status(404).end()
-    }
-});*/
 
 app.post('//users/login', async (req, res) => {
     const name=req.body.username
@@ -115,13 +82,22 @@ app.post('//users/login', async (req, res) => {
         res.status("User not found")
         //res.redirect('login')
     }
-
-    
 });
 
 app.get('//posts/recent', async (req, res) => {
     const posts = await postModel.find({date:Date}).sort({date:-1}).limit(10);
     console.log(postsU)
+});
+
+app.post('//posts/post', async (req, res) => {
+    try{
+        const post = new postModel({
+            
+        });
+        await post.save();
+    } catch (e){
+        console.log(e)
+    }
 });
 
 app.use(async (req,res) => {
