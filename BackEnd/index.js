@@ -15,11 +15,20 @@ const postSchema = new Schema({
     desc: String,
     imaURL: String,
     price: Number,
-    date: {type:Date, default:Date.now()}
+    date: {type:Date, default:Date.now()},
+    cart:[],
+    comprado: Boolean
+});
+
+const reviewSchema = new Schema({
+    desc: String,
+    rate: String,
+    productId: String
 });
 
 const userModel = mongoose.model('Users', userSchema);
 const postModel = mongoose.model('Posts', postSchema);
+const reviewModel = mongoose.model('Reviews', postSchema);
 
 mongoose.connect(
     "mongodb+srv://llherrera:BackEndp@cluster0.jf51l.mongodb.net/BackEnd_DB_P1?retryWrites=true&w=majority"
@@ -43,6 +52,11 @@ app.use(( req, res, next ) => {
 
 app.use(express.json())
 
+app.get('//users', async (req, res) => {
+    const users = await userModel.find()
+    res.json(users)
+});
+
 app.post('//users/register', async (req, res) => {
     try{
         const user = new userModel({
@@ -58,24 +72,25 @@ app.post('//users/register', async (req, res) => {
 });
 
 app.post('//users/login', async (req, res) => {
-    const name=req.body.username
-    const pass=req.body.password
-    //const exist=users.find(u => u.username===name && u.password===pass)
-    const doc = await userModel.findOne({username:req.body.username, password:req.body.password})
-    
-    try{
-        if (doc){
-            res.json("userId")
-        }else{
-            res.status("User not found").end()
-        }
-    } catch (e){
+    const log = await userModel.find({username:req.body.username, password:req.body.password})
+    if (log){
+        res.json(log)
+    }else{
         res.status("User not found")
-        //res.redirect('login')
     }
-
-    
 });
+/*
+app.post('//users/prev-login', async (req, res) => {
+    var Uid = req.body.user_id
+    console.log(Uid)
+    if(typeof Uid === undefined){
+        res.send('ño')
+    }else{
+        const log = await userModel.findById(Uid)
+        res.json(log)
+    }
+    
+});*/
 
 app.get('//posts/recent', async (req, res) => {
     const posts = await postModel.find()
@@ -85,7 +100,7 @@ app.get('//posts/recent', async (req, res) => {
 app.post('//posts', async (req, res) => {
     try{
         const post = new postModel({
-            idUser: req.params._id,
+            idUser: req.body.owner_id,
             name: req.body.display_name,
             desc: req.body.description,
             imaURL: req.body.img_url,
@@ -101,6 +116,35 @@ app.post('//posts', async (req, res) => {
 app.get('//posts/', async (req, res) => {
     const post= await postModel.findById(req.query.post_id)
     res.json(post)
+});
+
+app.get('//reviews/', async (req, res) => {
+    const reviews = await reviewModel.find({producId: req.query.product_id})
+    res.json(reviews)
+});
+
+app.post('//reviews/', async (req, res) => {
+    try{
+        const review = new reviewModel({
+            desc: req.body.description,
+            rate: req.body.rating,
+            productId: req.body.product_id
+        });
+        await review.save();
+        res.json('Posted')
+    } catch (e){
+        console.log(e)
+    }
+});
+
+app.post('//cart', async (req, res) => {
+    console.log(req.body, req.params)
+    console.log(userModel.cart)
+});
+
+app.get('//history/:id', async (req, res) => {
+    const his= await postModel.find({})
+    console.log(req.params.id)
 });
 
 app.use(async (req,res) => {
