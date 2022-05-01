@@ -6,16 +6,7 @@ const {Schema} = mongoose;
 const userSchema = new Schema({
     name: String,
     username: String,
-    password: String,
-    posts: [{
-        name: String,
-        desc: String,
-        imaURL: String,
-        price: Number
-    }],
-    cart: [{
-        idPost: Number
-    }]
+    password: String
 });
 
 const postSchema = new Schema({
@@ -24,7 +15,7 @@ const postSchema = new Schema({
     desc: String,
     imaURL: String,
     price: Number,
-    date: {type:Date, default:Date.now}
+    date: {type:Date, default:Date.now()}
 });
 
 const userModel = mongoose.model('Users', userSchema);
@@ -57,47 +48,14 @@ app.post('//users/register', async (req, res) => {
         const user = new userModel({
             name: req.body.display_name,
             username: req.body.username,
-            password: req.body.password,
-            posts: [],
-            cart: []
+            password: req.body.password
         });
         await user.save();
     } catch (e){
         console.log(e)
     }
-    //res.redirect('//users/login/:id')
+    res.json('Registed')
 });
-/*
-app.get('//users/login/:id', async (req, res) => {
-    const id = Number(req.params.id)
-    const userId = users.find(user => user._id===id)
-    if (exist){
-        res.json("userId")
-    }else{
-        res.status(404).end()
-    }
-});*/
-/*
-app.post('//users/login/:id', async (req, res) => {
-    const id = Number(req.params.id)
-    const exist = users.find(u => u._id===id)
-    if (exist){
-        res.json("userId")
-    }else{
-        res.status(404).end()
-    }
-});*/
-/*
-app.get('//users/login', async (req, res) => {
-    const name=req.body.username
-    const pass=req.body.password
-    const exist=users.find(u => u.username===name && u.password===pass)
-    if (exist){
-        res.json("userId")
-    }else{
-        res.status(404).end()
-    }
-});*/
 
 app.post('//users/login', async (req, res) => {
     const name=req.body.username
@@ -120,8 +78,29 @@ app.post('//users/login', async (req, res) => {
 });
 
 app.get('//posts/recent', async (req, res) => {
-    const posts = await postModel.find({date:Date}).sort({date:-1}).limit(10);
-    console.log(postsU)
+    const posts = await postModel.find()
+    res.json(posts);
+});
+
+app.post('//posts', async (req, res) => {
+    try{
+        const post = new postModel({
+            idUser: req.params._id,
+            name: req.body.display_name,
+            desc: req.body.description,
+            imaURL: req.body.img_url,
+            price: req.body.price
+        });
+        await post.save();
+        res.json('Posted')
+    } catch (e){
+        console.log(e)
+    }
+});
+
+app.get('//posts/', async (req, res) => {
+    const post= await postModel.findById(req.query.post_id)
+    res.json(post)
 });
 
 app.use(async (req,res) => {
