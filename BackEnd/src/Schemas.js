@@ -5,7 +5,8 @@ const userSchema = new Schema({
     name: String,
     username: String,
     password: String,
-    cart:[]
+    cart:[],
+    reviews:[]
 });
 
 const postSchema = new Schema({
@@ -15,13 +16,15 @@ const postSchema = new Schema({
     imaURL: String,
     price: Number,
     date: {type:Date, default:Date.now()},
-    comprado: Boolean
+    comprado: Boolean,
+    reviews:[]
 });
 
 const reviewSchema = new Schema({
     desc: String,
     rate: String,
-    productId: String
+    productId: String,
+    userId: String
 });
 
 const userModel = mongoose.model('Users', userSchema);

@@ -22,8 +22,8 @@ const postP = async (req, res) => {
 };
 
 const getP = async (req, res) => {
-    const post= await postModel.findById(req.query.post_id)
-    res.send(post)
+    const posts = await postModel.find({idUser: {$eq: req.query.user_id}})
+    res.send(posts)
 };
 
 module.exports = {

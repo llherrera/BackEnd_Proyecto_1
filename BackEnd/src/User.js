@@ -2,8 +2,8 @@ const {userModel} = require('./Schemas')
 
 
 const getU = async (req, res) => {
-    //const user = await userModel.findById(req.query.user_id)
-    //res.send(user)
+    const user = await userModel.findById(req.query.user_id)
+    res.send(user)
 };
 
 const register = async (req, res) => {
@@ -23,9 +23,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     const usna=req.body.username
     const pawo=req.body.password
-    const log = await userModel.find({username:{$eq: usna}, password:{$eq: pawo}})
-    if (log.length){
-        res.send(log)
+    const log = await userModel.findOne({username:{$eq: usna}, password:{$eq: pawo}})
+    if (Object.keys(log)){
+        res.json(log)
     }else{
         res.status(404).end()
     }

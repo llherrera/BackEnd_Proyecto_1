@@ -25,8 +25,8 @@ app.get('//users/', getU);
 app.post('//users/register', register);
 
 app.post('//users/login', login);
-/*
-app.post('//users/prev-login', );*/
+
+//app.post('//users/prev-login', );
 
 app.get('//posts/recent', recentP);
 
@@ -36,7 +36,7 @@ app.get('//posts/', getP);
 
 app.get('//reviews/', getR);
 
-//app.post('//reviews/', postR);
+app.post('//reviews/', postR);
 
 app.post('//cart', postC);
 
