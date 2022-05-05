@@ -1,7 +1,9 @@
-const {reviewModel} = require('./Schemas')
+const {reviewModel, postModel} = require('./Schemas')
 
 const getR = async (req, res) => {
-    const reviews = await reviewModel.find({producId: req.query.product_id})
+    //console.log(req.body, req.params, req.query)
+    //const reviews = await postModel.findById(req.query.product_id)
+    
     res.json(reviews)
 };
 

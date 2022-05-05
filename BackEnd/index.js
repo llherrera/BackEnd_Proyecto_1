@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv')
 require('./src/DB')
-const {register, login} = require('./src/User')
+const {register, login, getU} = require('./src/User')
 const {getP, postP, recentP} = require('./src/Post')
 const {postR, getR} = require('./src/Review')
 const {postC} = require('./src/Cart')
@@ -19,8 +19,8 @@ app.use(( req, res, next ) => {
 });
 
 app.use(express.json())
-/*
-app.get('//users', );*/
+
+app.get('//users/', getU);
 
 app.post('//users/register', register);
 
@@ -36,7 +36,7 @@ app.get('//posts/', getP);
 
 app.get('//reviews/', getR);
 
-app.post('//reviews/', postR);
+//app.post('//reviews/', postR);
 
 app.post('//cart', postC);
 

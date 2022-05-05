@@ -1,11 +1,11 @@
 const {userModel} = require('./Schemas')
 
-/*
-app.get('//users', async (req, res) => {
-    const users = await userModel.find()
-    res.json(users)
-});
-*/
+
+const getU = async (req, res) => {
+    //const user = await userModel.findById(req.query.user_id)
+    //res.send(user)
+};
+
 const register = async (req, res) => {
     try{
         const user = new userModel({
@@ -45,5 +45,6 @@ app.post('//users/prev-login', async (req, res) => {
 
 module.exports = {
     register,
-    login
+    login,
+    getU
 }

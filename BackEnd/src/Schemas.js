@@ -4,7 +4,8 @@ const {Schema} = mongoose;
 const userSchema = new Schema({
     name: String,
     username: String,
-    password: String
+    password: String,
+    cart:[]
 });
 
 const postSchema = new Schema({
@@ -14,7 +15,6 @@ const postSchema = new Schema({
     imaURL: String,
     price: Number,
     date: {type:Date, default:Date.now()},
-    cart:[],
     comprado: Boolean
 });
 
@@ -26,7 +26,7 @@ const reviewSchema = new Schema({
 
 const userModel = mongoose.model('Users', userSchema);
 const postModel = mongoose.model('Posts', postSchema);
-const reviewModel = mongoose.model('Reviews', postSchema);
+const reviewModel = mongoose.model('Reviews', reviewSchema);
 
 module.exports = {
     userModel,
