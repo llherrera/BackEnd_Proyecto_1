@@ -2,7 +2,7 @@ const {postModel} = require('./Schemas')
 
 const recentP = async (req, res) => {
     const posts = await postModel.find()
-    res.json(posts);
+    res.send(posts);
 };
 
 const postP = async (req, res) => {
@@ -15,7 +15,7 @@ const postP = async (req, res) => {
             price: req.body.price
         });
         await post.save();
-        res.json('Posted')
+        res.send('Posted')
     } catch (e){
         console.log(e)
     }
@@ -23,7 +23,7 @@ const postP = async (req, res) => {
 
 const getP = async (req, res) => {
     const post= await postModel.findById(req.query.post_id)
-    res.json(post)
+    res.send(post)
 };
 
 module.exports = {

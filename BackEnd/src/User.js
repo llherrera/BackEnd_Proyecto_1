@@ -21,11 +21,13 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    const log = await userModel.find({username:req.body.username, password:req.body.password})
-    if (log){
-        res.json(log)
+    const usna=req.body.username
+    const pawo=req.body.password
+    const log = await userModel.find({username:{$eq: usna}, password:{$eq: pawo}})
+    if (log.length){
+        res.send(log)
     }else{
-        res.status("User not found")
+        res.status(404).end()
     }
 };
 /*

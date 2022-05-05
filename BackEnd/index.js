@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 require('dotenv')
 require('./src/DB')
-const {userModel, postModel, reviewModel} = require('./src/Schemas')
 const {register, login} = require('./src/User')
 const {getP, postP, recentP} = require('./src/Post')
 const {postR, getR} = require('./src/Review')
