@@ -1,7 +1,12 @@
 const {reviewModel, postModel, userModel} = require('./Schemas')
 
 const getR = async (req, res) => {
-    const reviews = await reviewModel.find({userId: {$eq: req.query.user_id}})
+    let reviews;
+    if (req.query.user_id !== undefined) {
+        reviews = await reviewModel.find({userId: {$eq: req.query.user_id}})
+    }else if (req.query.product_id !== undefined){
+        reviews = await reviewModel.find({productId: {$eq: req.query.product_id}})
+    }
     res.json(reviews)
 };
 
@@ -11,7 +16,7 @@ const postR = async (req, res) => {
             desc: req.body.description,
             rate: req.body.rating,
             productId: req.body.product_id,
-            userId: req.body.userId
+            userId: req.body.user_id
         });
         let post = await postModel.findById(req.body.product_id)
         let user = await userModel.findById(req.body.user_id)

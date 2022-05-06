@@ -22,7 +22,12 @@ const postP = async (req, res) => {
 };
 
 const getP = async (req, res) => {
-    const posts = await postModel.find({idUser: {$eq: req.query.user_id}})
+    let posts;
+    if (req.query.user_id !== undefined) {
+        posts = await postModel.find({idUser: {$eq: req.query.user_id}})
+    }else if (req.query.post_id !== undefined){
+        posts = await postModel.findById(req.query.post_id)
+    }
     res.send(posts)
 };
 
