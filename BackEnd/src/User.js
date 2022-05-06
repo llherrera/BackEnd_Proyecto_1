@@ -31,21 +31,22 @@ const login = async (req, res) => {
         res.status(404).end()
     }
 };
-/*
-app.post('//users/prev-login', async (req, res) => {
-    var Uid = req.body.user_id
-    console.log(Uid)
-    if(typeof Uid === undefined){
-        res.send('ño')
-    }else{
-        const log = await userModel.findById(Uid)
-        res.json(log)
+
+const preLog = async (req, res) => {
+    try{
+        const user = await userModel.findById(req.body.user_id)
+        if (Object.keys(user) !== 0){
+            res.json(user)
+        }
     }
-    
-});*/
+    catch(e){
+        res.status(404)
+    }
+};
 
 module.exports = {
     register,
     login,
-    getU
+    getU,
+    preLog
 }

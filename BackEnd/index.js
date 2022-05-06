@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 require('dotenv')
 require('./src/DB')
-const {register, login, getU} = require('./src/User')
+const {register, login, getU, preLog} = require('./src/User')
 const {getP, postP, recentP} = require('./src/Post')
 const {postR, getR} = require('./src/Review')
 const {getC, postC, delC, buyC} = require('./src/Cart')
@@ -26,7 +26,7 @@ app.post('//users/register', register);
 
 app.post('//users/login', login);
 
-//app.post('//users/prev-login', );
+app.post('//users/prev-login', preLog);
 
 app.get('//posts/recent', recentP);
 
