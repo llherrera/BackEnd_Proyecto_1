@@ -7,8 +7,9 @@ const getU = async (req, res) => {
 };
 
 const register = async (req, res) => {
+    let user
     try{
-        const user = new userModel({
+        user = new userModel({
             name: req.body.display_name,
             username: req.body.username,
             password: req.body.password
@@ -17,7 +18,7 @@ const register = async (req, res) => {
     } catch (e){
         console.log(e)
     }
-    res.json('Registed')
+    res.json(user)
 };
 
 const login = async (req, res) => {

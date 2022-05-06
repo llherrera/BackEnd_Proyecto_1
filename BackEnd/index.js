@@ -5,7 +5,7 @@ require('./src/DB')
 const {register, login, getU} = require('./src/User')
 const {getP, postP, recentP} = require('./src/Post')
 const {postR, getR} = require('./src/Review')
-const {postC} = require('./src/Cart')
+const {getC, postC, delC, buyC} = require('./src/Cart')
 const {getH} = require('./src/History')
 
 app.use(( req, res, next ) => {
@@ -38,7 +38,13 @@ app.get('//reviews/', getR);
 
 app.post('//reviews/', postR);
 
+app.get('//cart', getC)
+
 app.post('//cart', postC);
+
+app.delete('//cart', delC);
+
+app.post('//cart/buy', buyC);
 
 app.get('//history/:id', getH);
 

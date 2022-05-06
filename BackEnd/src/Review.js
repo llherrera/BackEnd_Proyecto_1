@@ -6,7 +6,6 @@ const getR = async (req, res) => {
 };
 
 const postR = async (req, res) => {
-    console.log(req.body, req.params, req.query)
     try{
         const review = new reviewModel({
             desc: req.body.description,
