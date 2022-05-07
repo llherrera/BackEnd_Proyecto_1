@@ -10,7 +10,7 @@ const register = async (req, res) => {
     let user
     try{
         user = new userModel({
-            name: req.body.display_name,
+            display_name: req.body.display_name,
             username: req.body.username,
             password: req.body.password
         });

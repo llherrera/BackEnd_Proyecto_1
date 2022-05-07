@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const userSchema = new Schema({
-    name: String,
+    display_name: String,
     username: String,
     password: String,
     cart:[],
@@ -11,25 +11,25 @@ const userSchema = new Schema({
 });
 
 const postSchema = new Schema({
-    idUser: String,
+    owner_id: String,
     name: String,
-    desc: String,
-    imaURL: String,
+    description: String,
+    img_url: String,
     price: Number,
     date: {type:Date, default:Date.now()},
     reviews:[]
 });
 
 const reviewSchema = new Schema({
-    desc: String,
-    rate: String,
-    productId: String,
-    userId: String
+    description: String,
+    rating: String,
+    product_id: String,
+    user_id: String
 });
 
 const carSchema = new Schema({
-    productId: String,
-    userId: String
+    product_id: String,
+    user_id: String
 });
 
 const userModel = mongoose.model('Users', userSchema);
