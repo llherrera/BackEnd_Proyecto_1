@@ -1,6 +1,7 @@
 const {reviewModel, postModel, userModel} = require('./Schemas')
 
 const getR = async (req, res) => {
+    //console.log(req.query)
     let reviews;
     if (req.query.user_id !== undefined) {
         reviews = await reviewModel.find({user_id: {$eq: req.query.user_id}})
@@ -13,10 +14,10 @@ const getR = async (req, res) => {
 const postR = async (req, res) => {
     try{
         const review = new reviewModel({
-            description: req.body.description,
-            rating: req.body.rating,
+            user_id: req.body.user_id,
             product_id: req.body.product_id,
-            user_id: req.body.user_id
+            rating: req.body.rating,
+            description: req.body.description
         });
         let post = await postModel.findById(req.body.product_id)
         let user = await userModel.findById(req.body.user_id)

@@ -12,19 +12,19 @@ const userSchema = new Schema({
 
 const postSchema = new Schema({
     owner_id: String,
-    name: String,
-    description: String,
     img_url: String,
+    display_name: String,
+    description: String,
     price: Number,
     date: {type:Date, default:Date.now()},
     reviews:[]
 });
 
 const reviewSchema = new Schema({
-    description: String,
-    rating: String,
+    user_id: String,
     product_id: String,
-    user_id: String
+    rating: String,
+    description: String,
 });
 
 const carSchema = new Schema({
