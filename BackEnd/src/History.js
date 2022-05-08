@@ -1,14 +1,8 @@
-const {userModel, postModel} = require('./Schemas')
+const {hisModel} = require('./Schemas')
 
 const getH = async (req, res) => {
-    const user = await userModel.findById(req.params.id)
-    let posts = []
-    for (let i = 0; i < user.history.length; i++) {
-        const post = await postModel.findById(user.history[i])
-        posts.push(post)
-    }
-    console.log(posts)
-    res.send(posts)
+    const historyData = await hisModel.find({user_id: {$eq: req.params.id}})
+    res.send(historyData)
 };
 
 module.exports = {

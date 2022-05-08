@@ -1,4 +1,4 @@
-const {postModel, userModel} = require('./Schemas')
+const {postModel} = require('./Schemas')
 
 const recentP = async (req, res) => {
     const posts = await postModel.find()
@@ -22,18 +22,12 @@ const postP = async (req, res) => {
 };
 
 const getP = async (req, res) => {
-    //let ownerData;
-    //console.log(req.query)
     let posts;
     if (req.query.user_id !== undefined) {
-        //console.log('user'+req.query)
         posts = await postModel.find({owner_id: {$eq: req.query.user_id}})
     }else if (req.query.post_id !== undefined){
-        //console.log('aaa'+req.query)
         posts = await postModel.findById(req.query.post_id)
-        //ownerData = await userModel.findById(posts.owner_id)
     }
-    //console.log(posts)
     res.send(posts)
 };
 

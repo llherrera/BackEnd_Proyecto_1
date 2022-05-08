@@ -29,17 +29,25 @@ const reviewSchema = new Schema({
 
 const carSchema = new Schema({
     product_id: String,
-    user_id: String
+    user_id: String,
+    product_data: {}
+});
+
+const hisSchema = new Schema({
+    user_id: String,
+    product_data: {}
 });
 
 const userModel = mongoose.model('Users', userSchema);
 const postModel = mongoose.model('Posts', postSchema);
 const reviewModel = mongoose.model('Reviews', reviewSchema);
 const carModel = mongoose.model('carts', carSchema);
+const hisModel = mongoose.model('Histories', hisSchema);
 
 module.exports = {
     userModel,
     postModel,
     reviewModel,
-    carModel
+    carModel,
+    hisModel
 }
